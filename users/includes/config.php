@@ -1,9 +1,9 @@
-<?php 
+﻿<?php 
 // DB credentials.
-define('DB_HOST','localhost');
-define('DB_USER','u365671784_sep');
-define('DB_PASS','1TBCGFId+60e-,.&');
-define('DB_NAME','u365671784_sep');
+define('DB_HOST','159.65.228.65');
+define('DB_USER','phpmyadmin');
+define('DB_PASS','@uacari*321');
+define('DB_NAME','seplaudos');
 // Establish database connection.
 try
 {
