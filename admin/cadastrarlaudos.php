@@ -261,7 +261,7 @@ dataInicio.addEventListener("focusout", function (event) {
   var offset = new Date().getTimezoneOffset();
   var data = new Date(dataInicio.value);
   data.setMinutes(data.getMinutes() + offset);
-  data.setDate(data.getDate() + 182);
+  data.setDate(data.getDate() + 181);
 
   dataFinal.value = data.toISOString().substring(0, 10);
 })
