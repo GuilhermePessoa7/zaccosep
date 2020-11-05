@@ -163,7 +163,7 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
                                                             <span class="help-block text-muted"><small>Digite aqui o número do cliente.</small></span> 
                                                         </div>
                                                         <div class="form-group col-md-2 m-t-20">
-                                                            <input type="text" name="numerolaudo" onkeypress="return somenteNumeros(event)" class="form-control" placeholder="Número do Laudo" required> 
+                                                            <input type="text" name="numerolaudo" class="form-control" placeholder="Número do Laudo" required> 
                                                             <span class="help-block text-muted"><small>Digite aqui o número do laudo.</small></span>
                                                         </div>
                                                         <div class="form-group col-md-4 m-t-20">
