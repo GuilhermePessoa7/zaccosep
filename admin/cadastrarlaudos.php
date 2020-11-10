@@ -237,20 +237,7 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
     <script src="dist/js/sidebarmenu.js"></script>
     <script src="dist/js/custom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-masker/1.1.0/vanilla-masker.min.js"></script>
-    <script>
-        function somenteNumeros(e) {
-        var charCode = e.charCode ? e.charCode : e.keyCode;
-        // charCode 8 = backspace   
-        // charCode 9 = tab
-        if (charCode != 8 && charCode != 9) {
-            // charCode 48 equivale a 0   
-            // charCode 57 equivale a 9
-            if (charCode < 48 || charCode > 57) {
-                return false;
-            }
-        }
-    }
-    </script>
+
 <script>
 
 document.getElementById("6meses").onclick = function() {
@@ -261,7 +248,7 @@ dataInicio.addEventListener("focusout", function (event) {
   var offset = new Date().getTimezoneOffset();
   var data = new Date(dataInicio.value);
   data.setMinutes(data.getMinutes() + offset);
-  data.setDate(data.getDate() + 181);
+  data.setDate(data.getDate() + 182);
 
   dataFinal.value = data.toISOString().substring(0, 10);
 })
