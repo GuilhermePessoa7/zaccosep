@@ -109,11 +109,11 @@ $_SESSION['verificar']=$_POST['numerolaudo'];
                                 <span style="color: #1F1E69; font-weight: bold; font-size: 18px; text-decoration: underline;">Atenção</span> <br> Para abrir o arquivo é necessário ter em mãos o número do laudo e a matrícula do cliente.
                               </div><hr>
                             <div class="col-xs-12">
-                                <input class="form-control" type="tel" class="inputs" name="numerolaudo" required="" placeholder="Número do Laudo"> </div>
+                                <input class="form-control" type="text" class="inputs" name="numerolaudo" required="" placeholder="Número do Laudo"> </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-12">
-                                <input class="form-control" type="tel" class="inputs" onkeypress="return somenteNumeros(event)" name="numerocliente" required="" placeholder="Matrícula do Cliente"> </div>
+                                <input class="form-control" type="text" class="inputs" onkeypress="return somenteNumeros(event)" name="numerocliente" required="" placeholder="Matrícula do Cliente"> </div>
                         </div>
                         <div class="form-group text-center">
                             <div class="col-xs-6 p-b-20">
