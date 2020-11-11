@@ -2,7 +2,7 @@
 session_start();
 error_reporting(0);
 include('includes/config.php');
-if(strlen($_SESSION['alogin'])==0)
+if(strlen($_SESSION['login'])==0)
 	{	
 header('location:index.php');
 }
@@ -183,7 +183,7 @@ $query->execute();
                                                             <span class="help-block text-muted"><small>Número do Cliente</small></span> 
                                                         </div>
                                                         <div class="form-group col-md-2 m-t-20">
-                                                            <input type="text" name="numerolaudo" onkeypress="return somenteNumeros(event)" class="form-control" value="<?php echo htmlentities($result->numerolaudo);?>" required> 
+                                                            <input type="text" name="numerolaudo" class="form-control" value="<?php echo htmlentities($result->numerolaudo);?>" required> 
                                                             <span class="help-block text-muted"><small>Número do Laudo</small></span>
                                                         </div>
                                                         <div class="form-group col-md-4 m-t-20">
@@ -285,7 +285,7 @@ dataInicio.addEventListener("focusout", function (event) {
   var offset = new Date().getTimezoneOffset();
   var data = new Date(dataInicio.value);
   data.setMinutes(data.getMinutes() + offset);
-  data.setDate(data.getDate() + 182);
+  data.setDate(data.getDate() + 181);
 
   dataFinal.value = data.toISOString().substring(0, 10);
 })
