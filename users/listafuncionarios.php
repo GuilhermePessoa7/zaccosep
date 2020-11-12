@@ -7,25 +7,34 @@ if(strlen($_SESSION['login'])==0)
 header('location:index.php');
 }
 else{
-if(isset($_GET['del']) && isset($_GET['nomempresa']))
+if(isset($_GET['del']) && isset($_GET['name']))
 {
 $id=$_GET['del'];
-$nomempresa=$_GET['nomempresa'];
+$name=$_GET['name'];
 
-$sql = "delete from clientes WHERE id=:id";
+$sql = "delete from users WHERE id=:id";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':id',$id, PDO::PARAM_STR);
 $query -> execute();
 
+$sql2 = "insert into deleteduser (email) values (:name)";
+$query2 = $dbh->prepare($sql2);
+$query2 -> bindParam(':name',$name, PDO::PARAM_STR);
+$query2 -> execute();
+
 $msg="Deletado com sucesso!";
 
 }
+
+
+
 
  ?>
 
 
 
 <!-- PROGRAMAÇÃO POR: GUILHERME PESSOA @GUILHERMEPESSOAA7 -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,6 +42,8 @@ $msg="Deletado com sucesso!";
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <meta name="description" content="">
+    <meta name="author" content="">
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/logo-icon.png">
     <title>SEP - Sistema Administrativo</title>
     <link href="../assets/node_modules/morrisjs/morris.css" rel="stylesheet">
@@ -58,7 +69,7 @@ $msg="Deletado com sucesso!";
     <?php include('includes/header.php');?>
 
         <?php include('includes/menu.php');?>
-        
+
         <div class="page-wrapper">
             <div class="container-fluid">
                 <div class="row page-titles">
@@ -68,7 +79,7 @@ $msg="Deletado com sucesso!";
                         <div class="d-flex justify-content-end align-items-center">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
-                                <li class="breadcrumb-item active">Lista de Clientes</li>
+                                <li class="breadcrumb-item active">Lista de Funcionarios</li>
                             </ol>
                         </div>
                     </div>
@@ -128,13 +139,12 @@ $msg="Deletado com sucesso!";
     <div class="col-12">
     <?php if($msg){?><br><div class="form-group m-b-0"><div style="text-align: center;" class="alert alert-success alert-dismissible fade show" role="alert"><i class="fas fa-check"></i> &nbsp; <?php echo htmlentities($msg); ?><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div></div>
                                                     
-    <?php } ?>
+                                                    <?php } ?>
     <div class="card">
     <div class="card-body">
         <h6 class="card-subtitle"></h6>
-        <a href="adicionarclientes.php"><button type="button" class="btn waves-effect waves-light btn-success m-t-10 mb-2 float-right">
+        <a href="adicionarfuncionarios.php"><button type="button" class="btn waves-effect waves-light btn-success m-t-10 mb-2 float-right">
         <i class="fas fa-user-plus"></i> Adicionar</button></a>
-
 
         <?php include('includes/logoutmodal.php');?>
 
@@ -143,19 +153,16 @@ $msg="Deletado com sucesso!";
                                         <table class="table table-bordered table-hover" id="tabela">
                                             <thead>
                                                 <tr>
-                                                    <th style="text-align: center; white-space: nowrap;"><i class="fas fa-bell"></i>&nbsp; Matrícula</th>
-                                                    <th style="text-align: center; white-space: nowrap;"><i class="fas fa-hospital-alt"></i> &nbsp; Nome da empresa</th>
-                                                    <th style="text-align: center; white-space: nowrap;"><i class="fas fa-info-circle"></i> &nbsp; CNPJ</th>
-                                                    <th style="text-align: center; white-space: nowrap;"><i class="fas fa-user"></i>&nbsp; Responsável</th>
-                                                    <th style="text-align: center; white-space: nowrap;"><i class="fas fa-comment-alt"></i>&nbsp; Email</th>
-                                                    <th style="text-align: center; white-space: nowrap;"><i class="fas fa-phone"></i>&nbsp; Telefone</th>
-                                                    <th style="text-align: center; white-space: nowrap;"><i class="fas fa-phone"></i>&nbsp; Celular</th>
+                                                    <th style="text-align: center; width: 0% white-space: nowrap;"><i class="fas fa-user"></i> &nbsp; Nome do Funcionário</th>
+                                                    <th style="text-align: center; width: 20% white-space: nowrap;"><i class="fas fa-envelope"></i>&nbsp; Email do Funcionário</th>
+                                                    <th style="text-align: center; white-space: nowrap;"><i class="fas fa-phone"></i>&nbsp; Número de contato</th>
+                                                    <th style="text-align: center; white-space: nowrap;"><i class="fas fa-venus-mars"></i>&nbsp; Sexo do Funcionário</th>
                                                     <th style="text-align: center; white-space: nowrap;"><i class="ti-settings"></i>&nbsp; Ajustes</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
 
-<?php $sql = "SELECT * from  clientes ";
+<?php $sql = "SELECT * from  users ";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -165,20 +172,17 @@ if($query->rowCount() > 0)
 foreach($results as $result)
 {				?>	
 
+
                                                 <tr>
-                                                <td style="text-align: center;"><?php echo htmlentities($result->matriculacliente);?></td>
-                                                    <td style="text-align: center;"><?php echo htmlentities($result->nomempresa);?></td>
-                                                    <td style="text-align: center;"><?php echo htmlentities($result->cnpj);?></td>
-                                                    <td style="text-align: center;"><?php echo htmlentities($result->responsavel);?></td>
+                                                    <td style="text-align: center;"><?php echo htmlentities($result->name);?></td>
                                                     <td style="text-align: center;"><?php echo htmlentities($result->email);?></td>
-                                                    <td style="text-align: center;"><?php echo htmlentities($result->telefone);?></td>
-                                                    <td style="text-align: center;"><?php echo htmlentities($result->celular);?></td>
-                                                    <td style="text-align: center;">
-                                                    <center><a href="editarclientes.php?edit=<?php echo $result->id;?>"><button class="btn btn-blue waves-effect waves-light" data-toggle="tooltip" data-placement="top" title="Editar"><span class="btn-label"><i class="far fa-edit"></i></span></button></a>
-                                                            <a href="excluir_cliente.php?edit=<?php echo $result->id;?>" data-toggle="tooltip" data-placement="top" title="Excluir"><button class="btn btn-red waves-effect waves-light" style="color: #fff;"><span class="btn-label"><i class="fas fa-trash"></i></span></button></a>
-                                                    </center>
-                                                
-                                                </td>
+                                                    <td style="text-align: center;"><?php echo htmlentities($result->mobile);?></td>
+                                                    <td style="text-align: center;"><?php echo htmlentities($result->gender);?></td>
+                                                    
+                                                    <td>
+                                                        <center><a href="editarfuncionarios.php?edit=<?php echo $result->id;?>"><button class="btn btn-blue waves-effect waves-light" data-toggle="tooltip" data-placement="top" title="Editar"><span class="btn-label"><i class="far fa-edit"></i></span> </button></a>
+                                                            <a href="excluir_funcionario.php?edit=<?php echo $result->id;?>" class="btn btn-red waves-effect waves-light" style="color: #fff;"><i class="fas fa-trash"></i> </button></a></center>
+                                                    </td>
                                                 </tr>
 
                                                 <?php $cnt=$cnt+1; }} ?>
@@ -189,10 +193,12 @@ foreach($results as $result)
                                 </div>
                             </div>
                         </div>
-                    </div>             
+                    </div>
             </div>
         </div>
-        <?php include('includes/rodape.php');?>
+        <footer class="footer" style="text-align: center;">
+            © 2020 ~ Feito por Agência Zacco ©
+        </footer>
     </div>
     <script type="text/javascript">
         $(window).on('load',function(){
@@ -206,7 +212,7 @@ foreach($results as $result)
     <script src="dist/js/waves.js"></script>
     <script src="dist/js/sidebarmenu.js"></script>
     <script src="dist/js/custom.min.js"></script>
-<script src="../assets/node_modules/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="../assets/node_modules/datatables.net/js/jquery.dataTables.js"></script>
     <script>
 $(function() {
     $('#tabela').DataTable( {
@@ -227,7 +233,6 @@ var api = this.api();
 var rows = api.rows({
 page: 'current'
 }).nodes();
-
 var last = null;
 api.column(2, {
 page: 'current'
@@ -249,7 +254,6 @@ table.order([2, 'asc']).draw();
 }
 });
 });
-
 });
 $('#example23').DataTable({
 dom: 'Bfrtip',
@@ -258,7 +262,6 @@ buttons: [
 ]
 });
 $('.buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel').addClass('btn btn-primary mr-1');
-
 </script>
     <script src="../assets/node_modules/raphael/raphael.min.js"></script>
     <script src="../assets/node_modules/morrisjs/morris.min.js"></script>
@@ -269,4 +272,5 @@ $('.buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel').a
 
 </html>
 <!-- PROGRAMAÇÃO POR: GUILHERME PESSOA @GUILHERMEPESSOAA7 -->
+
 <?php } ?>
