@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 error_reporting(0);
@@ -8,49 +9,26 @@ header('location:index.php');
 }
 else{
 
-if(isset($_GET['edit']))
+  if(isset($_GET['edit']))
 	{
 		$editid=$_GET['edit'];
-	}
+  }
+  
+  if(isset($_POST['submit']))
+	{
+    $idedit=$_POST['idedit'];
 
-
-	
-if(isset($_POST['submit']))
-  {
-
-
-$numerocliente=$_POST['numerocliente'];
-$numerolaudo=$_POST['numerolaudo'];
-$descricao=$_POST['descricao'];
-$datalaudo=$_POST['datalaudo'];
-$validade=$_POST['validade'];
-$email=$_POST['email'];
-$idedit=$_POST['idedit'];
-$datavalidade=$_POST['datavalidade'];
-
-
-$sql="UPDATE laudos SET numerocliente=(:numerocliente), numerolaudo=(:numerolaudo), descricao=(:descricao), datalaudo=(:datalaudo), validade=(:validade), datavalidade=(:datavalidade), email=(:email) WHERE id=(:idedit)";
-$query = $dbh->prepare($sql);
-$query-> bindParam(':numerocliente', $numerocliente, PDO::PARAM_STR);
-$query-> bindParam(':numerolaudo', $numerolaudo, PDO::PARAM_STR);
-$query-> bindParam(':descricao', $descricao, PDO::PARAM_STR);
-$query-> bindParam(':datalaudo', $datalaudo, PDO::PARAM_STR);
-$query-> bindParam(':validade', $validade, PDO::PARAM_STR);
-$query-> bindParam(':datavalidade', $datavalidade, PDO::PARAM_STR);
-$query-> bindParam(':email', $email, PDO::PARAM_STR);
-$query-> bindParam(':idedit', $idedit, PDO::PARAM_STR);
-$query->execute();
-    $msg="Laudo alterado com sucesso!";
+    $sql = "delete from laudos WHERE id=(:idedit)";
+    $query = $dbh->prepare($sql);
+    $query-> bindParam(':idedit', $idedit, PDO::PARAM_STR);
+    $query -> execute();
+    
+    $msg="Deletado com sucesso!";
     echo "<script type='text/javascript'> setTimeout(function() { window.location.href = 'listalaudos.php';}, 1000); </script>";
-}   
-
-
-
+}
 ?>
 
-
 <!-- PROGRAMAÇÃO POR: GUILHERME PESSOA @GUILHERMEPESSOAA7 -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -62,8 +40,9 @@ $query->execute();
     <title>SEP - Sistema Administrativo</title>
     <link href="../assets/node_modules/morrisjs/morris.css" rel="stylesheet">
     <link href="../assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="../assets/node_modules/c3-master/c3.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
     <link href="dist/css/style.min.css" rel="stylesheet">
     <link href="dist/css/pages/dashboard1.css" rel="stylesheet">
 </head>
@@ -82,13 +61,11 @@ $query->execute();
 
     <style>.text-cor {COLOR: #1f1e69;}</style>
     <div id="main-wrapper">
-
     <?php include('includes/header.php');?>
 
         <?php include('includes/menu.php');?>
 
-        <?php include('includes/logoutmodal.php');?>
-
+            <?php include('includes/logoutmodal.php');?>
 
         <div class="page-wrapper">
             <div class="container-fluid">
@@ -99,7 +76,7 @@ $query->execute();
                         <div class="d-flex justify-content-end align-items-center">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
-                                <li class="breadcrumb-item active">Editar Laudos</li>
+                                <li class="breadcrumb-item active">Excluir Laudos</li>
                             </ol>
                         </div>
                     </div>
@@ -155,14 +132,15 @@ $query->execute();
                         opacity: 0.6;
                     }
                 </style>
+
 <?php
-		$sql = "SELECT * from laudos where id = :editid";
-		$query = $dbh -> prepare($sql);
-		$query->bindParam(':editid',$editid,PDO::PARAM_INT);
-		$query->execute();
-		$result=$query->fetch(PDO::FETCH_OBJ);
-		$cnt=1;	
-?>
+		  $sql = "SELECT * from laudos where id = :editid";
+		  $query = $dbh -> prepare($sql);
+		  $query->bindParam(':editid',$editid,PDO::PARAM_INT);
+		  $query->execute();
+		  $result=$query->fetch(PDO::FETCH_OBJ);
+		  $cnt=1;	
+    ?>
 
 <div class="row">
     <div class="col-12">
@@ -170,57 +148,58 @@ $query->execute();
     <div class="card-body">             
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4 class="card-title"><i class="far fa-file"></i> &nbsp;  Editar o laudo Nº <?php echo htmlentities($result->numerolaudo); ?> </h4>
-                                                    <h6 class="card-subtitle"><code><i class="fas fa-angle-double-right"></i> Edite o laudo <?php echo htmlentities($result->numerolaudo); ?> no sistema</code></h6>
+                                                    <h4 class="card-title"><i class="far fa-file"></i> &nbsp; Excluir o Laudo <?php echo htmlentities($result->numerolaudo); ?></h4>
+                                                    <h6 class="card-subtitle"><code><i class="fas fa-angle-double-right"></i> Exclua o laudo <?php echo htmlentities($result->numerolaudo); ?> do sistema</code></h6>
                                                     <form class="form-material m-t-40 row" method="post" enctype="multipart/form-data">
                                                         <div class="form-group col-md-4 m-t-20">
-                                                            <input type="text" name="numerocliente" onkeypress="return somenteNumeros(event)" value="<?php echo htmlentities($result->numerocliente);?>" class="form-control form-control-line" required>
-                                                            <span class="help-block text-muted"><small>Número do Cliente</small></span> 
+                                                            <input type="text" name="numerocliente" value="<?php echo htmlentities($result->numerocliente); ?>" onkeypress="return somenteNumeros(event)" class="form-control form-control-line" placeholder="Número do Cliente" disabled>
+                                                            <span class="help-block text-muted"><small>Digite aqui o número do cliente.</small></span> 
                                                         </div>
                                                         <div class="form-group col-md-4 m-t-20">
-                                                            <input type="text" name="numerolaudo" class="form-control" value="<?php echo htmlentities($result->numerolaudo);?>" required> 
-                                                            <span class="help-block text-muted"><small>Número do Laudo</small></span>
+                                                            <input type="text" name="numerolaudo" value="<?php echo htmlentities($result->numerolaudo); ?>" class="form-control" placeholder="Número do Laudo" disabled> 
+                                                            <span class="help-block text-muted"><small>Digite aqui o número do laudo.</small></span>
                                                         </div>
                                                         <div class="form-group col-md-4 m-t-20">
-                                                            <input type="email" name="email" class="form-control" value="<?php echo htmlentities($result->email);?>"> 
+                                                            <input type="email" name="email" class="form-control" value="<?php echo htmlentities($result->email); ?>" placeholder="Email do laudo" disabled> 
                                                             <span class="help-block text-muted"><small>Digite aqui o email que vai ser enviado a notificacao do vencimento do laudo.</small></span>
                                                         </div>
-
                                                         <div class="form-group col-md-12 m-t-20">
-                                                            <input type="text" name="descricao" class="form-control" value="<?php echo htmlentities($result->descricao);?>" required> 
-                                                            <span class="help-block text-muted"><small>Descrição do laudo</small></span>
+                                                            <input type="text" name="descricao" value="<?php echo htmlentities($result->descricao); ?>" class="form-control" placeholder="Descrição do laudo" disabled> 
+                                                            <span class="help-block text-muted"><small>Digite aqui uma descrição para o seu laudo.</small></span>
                                                         </div>
-                                                        <div class="form-group col-md-3 m-t-20">
-                                                            <input type="date" name="datalaudo" id="dataInicio" class="form-control" value="<?php echo htmlentities($result->datalaudo);?>" required>
-                                                            <span class="help-block text-muted"><small>Data do laudo.</small></span>
+                                                        <div class="form-group col-md-4 m-t-20">
+                                                            <input type="date" name="datalaudo" value="<?php echo htmlentities($result->datalaudo); ?>" id="dataInicio" class="form-control" placeholder="Data do Laudo" disabled>
+                                                            <span class="help-block text-muted"><small>Digite aqui a data do laudo.</small></span>
                                                         </div>
-                                                         <div class="form-group col-md-3 m-t-2">
-                                                         <button type="button" class="btn btn-rounded btn-block btn-outline-secondary" id="6meses"> 6 meses</button>
-                                                         <button type="button" class="btn btn-rounded btn-block btn-outline-secondary" id="1ano">1 ano</button>
-                                                        <span class="help-block text-muted"><small>Marque o tempo de validade do seu laudo (Caso queira alterar)</small></span>
-                                                         </div>
-                                                         <div class="form-group col-md-3 m-t-20">
-                                                            <input type="date" name="datavalidade" id="dataFinal" class="form-control" value="<?php echo htmlentities($result->datavalidade);?>"> 
+                                                        
+                                                         <div class="form-group col-md-4 m-t-20">
+                                                            <input type="date" name="datavalidade" value="<?php echo htmlentities($result->datavalidade); ?>" id="dataFinal" class="form-control" placeholder="Data de Validade" disabled> 
                                                             <span class="help-block text-muted"><small>A data de validade será gerada automaticamente.</small></span>
                                                         </div>
-                                                        <div class="form-group col-md-3 m-t-20">
-                                                            <select name="validade" class="form-control" required> 
-                                                                <option value="<?php echo htmlentities($result->validade);?>"><?php echo htmlentities($result->validade);?></option>
+                                                        
+                                                        <div class="form-group col-md-4 m-t-20">
+                                                            <select name="validade" class="form-control" disabled> 
+                                                                <option value="<?php echo htmlentities($result->validade); ?>"><?php echo htmlentities($result->validade); ?></option>
                                                                 <option value="6 meses">6 meses</option>
                                                                 <option value="1 ano">1 ano</option>
                                                             </select>
                                                             <span class="help-block text-muted"><small>Porfavor, selecione novamente a validade.</small></span>
                                                         </div>
+
+
                                                          <div class="col-lg-2 col-md-2">
-                                                            <button name="submit" type="submit" class="btn waves-effect waves-light btn-block btn-success"><i class="fas fa-check"></i> Salvar</button>
+                                                            <button name="submit" type="submit" class="btn waves-effect waves-light btn-block btn-success"><i class="fas fa-times"></i> Confirmar exclusão</button>
                                                         </div>
                                                         <div style="padding: 3px;"></div>
+                                                       
                                                         <div class="col-lg-2 col-md-2">
 
                                                             <a href="listalaudos.php"><button type="button" class="btn waves-effect waves-light btn-block btn-danger"><i class="fas fa-arrow-left"></i> Ir para a lista</button></a>
                                                             
                                                         </div>
+
                                                         <input type="hidden" name="idedit" value="<?php echo htmlentities($result->id);?>" >
+
                                                     </form>
 
                                                     <?php if($msg){?><br><div class="alert alert-success" style="text-align: center;" role="alert"><i class="fas fa-check"></i>&nbsp; <?php echo htmlentities($msg); ?></div>
@@ -250,23 +229,8 @@ $query->execute();
     <script src="dist/js/sidebarmenu.js"></script>
     <script src="dist/js/custom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-masker/1.1.0/vanilla-masker.min.js"></script>
-    <script>
-        function somenteNumeros(e) {
-        var charCode = e.charCode ? e.charCode : e.keyCode;
-        // charCode 8 = backspace   
-        // charCode 9 = tab
-        if (charCode != 8 && charCode != 9) {
-            // charCode 48 equivale a 0   
-            // charCode 57 equivale a 9
-            if (charCode < 48 || charCode > 57) {
-                return false;
-            }
-        }
-    }
-    </script>
-    <script>
 
-
+<script>
 
 document.getElementById("6meses").onclick = function() {
     var dataInicio = document.getElementById("dataInicio");
@@ -300,16 +264,12 @@ dataInicio.addEventListener("focusout", function (event) {
   dataFinal.value = data.toISOString().substring(0, 10);
 })
 
-
 var event = new Event("focusout");
 dataInicio.dispatchEvent(event);
 
-
-
 };
-
-
 </script>
+
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -322,6 +282,5 @@ dataInicio.dispatchEvent(event);
 </body>
 
 </html>
-
-<!-- PROGRAMAÇÃO POR: GUILHERME PESSOA @GUILHERMEPESSOAA7 -->
 <?php } ?>
+<!-- PROGRAMAÇÃO POR: GUILHERME PESSOA @GUILHERMEPESSOAA7 -->

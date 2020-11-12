@@ -175,7 +175,7 @@ foreach($results as $result)
                                                     <td style="text-align: center;"><?php echo htmlentities($result->celular);?></td>
                                                     <td style="text-align: center;">
                                                     <center><a href="editarclientes.php?edit=<?php echo $result->id;?>"><button class="btn btn-blue waves-effect waves-light" data-toggle="tooltip" data-placement="top" title="Editar"><span class="btn-label"><i class="far fa-edit"></i></span></button></a>
-                                                            <a data-toggle="tooltip" data-placement="top" title="Excluir"><button data-toggle="modal" data-target="#excluir-funcionarios" class="btn btn-red waves-effect waves-light" style="color: #fff;"><span class="btn-label"><i class="fas fa-trash"></i></span></button></a>
+                                                            <a href="excluir_cliente.php?edit=<?php echo $result->id;?>" data-toggle="tooltip" data-placement="top" title="Excluir"><button class="btn btn-red waves-effect waves-light" style="color: #fff;"><span class="btn-label"><i class="fas fa-trash"></i></span></button></a>
                                                     </center>
                                                 
                                                 </td>
@@ -183,25 +183,6 @@ foreach($results as $result)
 
                                                 <?php $cnt=$cnt+1; }} ?>
 
-                                                <div id="excluir-funcionarios" class="modal fade in bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-sm">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title" id="myModalLabel" style="text-align: center;">Deseja excluir?</h4>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                </div>
-                                                    <div class="modal-body ">
-                                                        <center>
-                                                        <a href="listaclientes.php?del=<?php echo $result->id;?>&nomempresa=<?php echo htmlentities($result->nomempresa);?>"><button class="btn btn-success waves-effect"><i class="fas fa-check"></i> Sim</button></a>
-                                                            <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal"><i class="fas fa-times"></i> Não</button>
-                                                        </center>
-                                                    
-                                                    </div>
-                                                            </div>
-                                                                        
-                                                        </div>          
-                                            
-                                    </div>
                                             </tbody>
                                         </table>
                                     </div>
