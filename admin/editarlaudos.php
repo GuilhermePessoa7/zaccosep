@@ -190,20 +190,15 @@ $query->execute();
                                                             <input type="text" name="descricao" class="form-control" value="<?php echo htmlentities($result->descricao);?>" required> 
                                                             <span class="help-block text-muted"><small>Descrição do laudo</small></span>
                                                         </div>
-                                                        <div class="form-group col-md-3 m-t-20">
+                                                        <div class="form-group col-md-4 m-t-20">
                                                             <input type="date" name="datalaudo" id="dataInicio" class="form-control" value="<?php echo htmlentities($result->datalaudo);?>" required>
                                                             <span class="help-block text-muted"><small>Data do laudo.</small></span>
                                                         </div>
-                                                         <div class="form-group col-md-3 m-t-2">
-                                                         <button type="button" class="btn btn-rounded btn-block btn-outline-secondary" id="6meses"> 6 meses</button>
-                                                         <button type="button" class="btn btn-rounded btn-block btn-outline-secondary" id="1ano">1 ano</button>
-                                                        <span class="help-block text-muted"><small>Marque o tempo de validade do seu laudo (Caso queira alterar)</small></span>
-                                                         </div>
-                                                         <div class="form-group col-md-3 m-t-20">
+                                                         <div class="form-group col-md-4 m-t-20">
                                                             <input type="date" name="datavalidade" id="dataFinal" class="form-control" value="<?php echo htmlentities($result->datavalidade);?>"> 
-                                                            <span class="help-block text-muted"><small>A data de validade será gerada automaticamente.</small></span>
+                                                            <span class="help-block text-muted"><small>Data do validade.</small></span>
                                                         </div>
-                                                        <div class="form-group col-md-3 m-t-20">
+                                                        <div class="form-group col-md-4 m-t-20">
                                                             <select name="validade" class="form-control" required> 
                                                                 <option value="<?php echo htmlentities($result->validade);?>"><?php echo htmlentities($result->validade);?></option>
                                                                 <option value="6 meses">6 meses</option>
