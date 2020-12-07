@@ -35,7 +35,7 @@
                         </li>
                         <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="far fa-file"></i><span class="hide-menu">Laudos</span></a>
                             <ul aria-expanded="false" class="collapse">
-                            <li data-toggle="modal" data-target="#tipolaudo" style="cursor: pointer;"><a>Adicionar Laudos<i class="fas fa-plus"></i></a></li>
+                            <li><a href="cadastrarlaudos.php">Adicionar Laudos<i class="fas fa-plus"></i></a></li>
                             <li><a href="listalaudos.php">Lista de Laudos<i class="fas fa-list"></i></a></li>
                             <li><a href="listalaudoenviados.php">Laudos Notificados<i class="fas fa-list"></i></a></li>
                             <li><a href="laudosvencidos.php">Laudos Vencidos<i class="fas fa-clock"></i></a></li>
