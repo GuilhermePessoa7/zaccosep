@@ -1,7 +1,7 @@
 <?php
 session_start();
 error_reporting(0);
-include('admin/includes/config.php');
+include('../admin/includes/config.php');
 if(strlen($_SESSION['verificar'])==0)
 	{	
 header('location:index.php');
@@ -83,12 +83,24 @@ else{
                         <h3 class="box-title m-b-20"><center><img src="../assets/images/logo-icon.png"></center></h3>
                         <div class="form-group ">
                             <div class="col-xs-12">
-                                <input class="form-control" type="text" class="inputs" name="numerolaudo" value="Laudo N°<?php echo htmlentities($result->numerolaudo);?>" disabled> </div>
+                                <input class="form-control" type="text" class="inputs" value="Laudo N°<?php echo htmlentities($result->numerolaudo);?>" disabled> </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-12">
-                                <input class="form-control" type="text" class="inputs" name="numerocliente" required="" value="Cliente N°<?php echo htmlentities($result->numerocliente);?>" disabled> </div>
+                                <input class="form-control" type="text" class="inputs" required="" value="Cliente N°<?php echo htmlentities($result->numerocliente);?>" disabled> </div>
                         </div>
+
+                        <? if($result->numeroplaca == ""){
+                            echo '';
+
+                        }else if($result->numeroplaca != ""){
+                            echo '<div class="form-group">
+                            <div class="col-xs-12">
+                                <input class="form-control" type="text" class="inputs" required="" value="Placa N°'.$result->numeroplaca.'" disabled> </div>
+                        </div>';
+
+                        }?>
+                        
                         <div class="form-group text-center">
                             <div class="col-xs-12 p-b-20">
                             <a class="btn btn-info btn-block" href="./../laudos<?php echo htmlentities($result->arquivo);?>" target="_blank">Visualizar meu laudo &nbsp;<i class="fas fa-eye"></i></a>

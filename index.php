@@ -1,10 +1,15 @@
 <?php
 session_start();
 error_reporting(0);
-include('admin/includes/config.php');
+include('../admin/includes/config.php');
 if(isset($_POST['submit']))
 {
-$numerolaudo   = $_POST['numerolaudo'];
+
+    if ($_POST['numeroplaca'] == ""){
+
+
+
+        $numerolaudo   = $_POST['numerolaudo'];
 $numerocliente = $_POST['numerocliente'];
 
 $sql ="SELECT numerocliente,numerolaudo FROM laudos WHERE numerolaudo=:numerolaudo and numerocliente=:numerocliente";
@@ -24,6 +29,33 @@ $_SESSION['verificar']=$_POST['numerolaudo'];
     $error="Verificação negada! Dados Incorretos...";	
 
 }
+
+
+    } else if ($_POST['numeroplaca'] != ""){
+        $numerolaudo   = $_POST['numerolaudo'];
+        $numerocliente = $_POST['numerocliente'];
+        $numeroplaca = $_POST['numeroplaca'];
+        
+        $sql ="SELECT numerocliente,numerolaudo,numeroplaca FROM laudos WHERE numerolaudo=:numerolaudo and numerocliente=:numerocliente and numeroplaca = :numeroplaca";
+        $query= $dbh -> prepare($sql);
+        $query-> bindParam(':numerocliente', $numerocliente, PDO::PARAM_STR);
+        $query-> bindParam(':numerolaudo', $numerolaudo, PDO::PARAM_STR);
+        $query-> bindParam(':numeroplaca', $numeroplaca, PDO::PARAM_STR);
+        $query-> execute();
+        $results=$query->fetchAll(PDO::FETCH_OBJ);
+        
+        if($query->rowCount() > 0)
+        {
+        $_SESSION['verificar']=$_POST['numerolaudo'];
+            $msg = "Verificação confirmada! Aguarde...";
+            echo "<script type='text/javascript'> setTimeout(function() { window.location.href = 'busca.php';}, 2000); </script>";
+        } else{
+          
+            $error="Verificação negada! Dados Incorretos...";	
+        
+        }
+
+    }
 
 
 }
@@ -106,16 +138,24 @@ $_SESSION['verificar']=$_POST['numerolaudo'];
                     <h3 class="box-title m-b-20"><center><img src="../assets/images/logo-icon.png"></center></h3>
                         <div class="form-group ">
                         <div class="col-sm-12 text-center">
-                                <span style="color: #1F1E69; font-weight: bold; font-size: 18px; text-decoration: underline;">Atenção</span> <br> Para abrir o arquivo é necessário ter em mãos o número do laudo e a matrícula do cliente.
+                                <span style="color: #1F1E69; font-weight: bold; font-size: 18px; text-decoration: underline;">Atenção</span> 
+                                <br> Para abrir o arquivo é necessário ter em mãos o <span style="color: #1F1E69;  font-weight: bold; text-decoration: underline;"> número do laudo</span> ou <span style="color: #1F1E69;  font-weight: bold; text-decoration: underline;"> número da placa</span> e a<span style="color: #1F1E69;  font-weight: bold; text-decoration: underline;"> matrícula do cliente</span>.
                               </div><hr>
+                              <div class="form-group">
                             <div class="col-xs-12">
-                                <input class="form-control" type="text" class="inputs" name="numerolaudo" required="" placeholder="Número do Laudo"> </div>
+                                <input class="form-control" type="text" class="inputs" name="numerocliente" placeholder="Matrícula do Cliente"> </div>
                         </div>
-                        <div class="form-group">
+                              <div class="form-group">
                             <div class="col-xs-12">
-                                <input class="form-control" type="text" class="inputs" onkeypress="return somenteNumeros(event)" name="numerocliente" required="" placeholder="Matrícula do Cliente"> </div>
+                            <input class="form-control" type="text" class="inputs" name="numerolaudo" placeholder="Número do Laudo"> </div>
                         </div>
-                        <div class="form-group text-center">
+                              <div class="form-group">
+                            <div class="col-xs-12">
+                            <input class="form-control" type="text" class="inputs" name="numeroplaca" placeholder="Número da Placa"> </div>
+                            <small><a style="text-align:center;">Caso tenha o número da placa, preencha a baixo, caso contrario deixe em branco.</a></small>
+                        </div>
+
+                                <div class="form-group text-center">
                             <div class="col-xs-6 p-b-20">
                            <button class="btn btn-info btn-block" name="submit" type="submit">Verificar &nbsp;<i class="fas fa-search"></i></button>
                             </div>
