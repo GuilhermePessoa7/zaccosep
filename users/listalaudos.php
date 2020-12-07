@@ -189,14 +189,8 @@ foreach($results as $result)
                                                 <tr>
                                                     <td style="text-align: center;"><?php echo htmlentities($result->numerocliente);?></td>
                                                     <td style="text-align: center;"><?php echo htmlentities($result->numerolaudo);?></td>
-                                                    <? if($result->numeroplaca == ""){
-                                                        echo ' <td style="text-align: center;">Sem placa</td>';
+                                                    <td style="text-align: center;"><?php echo htmlentities($result->numeroplaca);?></td>
 
-                                                    }else if($result->numeroplaca != ""){
-                                                        echo '<td style="text-align: center;">'.$result->numeroplaca.'</td>';
-
-                                                    }
-                                                    ?>
                                                     <td style="text-align: center; white-space: nowrap; width: 20%"><?php echo htmlentities($result->descricao);?></td>
                                                     <td style="text-align: center;"><?php echo date("d/m/Y", strtotime($result->datalaudo))?></td>
                                                     <td style="text-align: center;"><?php echo htmlentities($result->validade);?></td>
