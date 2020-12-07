@@ -2,7 +2,7 @@
 session_start();
 error_reporting(0);
 include('includes/config.php');
-if(strlen($_SESSION['alogin'])==0)
+if(strlen($_SESSION['login'])==0)
 	{	
 header('location:index.php');
 }
@@ -152,7 +152,6 @@ else{
                                                 <tr>
                                                     <th style="text-align: center; white-space: nowrap;"><i class="fas fa-user"></i> <br>&nbsp; Número do Cliente</th>
                                                     <th style="text-align: center; white-space: nowrap;"><i class="fas fa-table"></i> <br>&nbsp; Número do Laudo</th>
-                                                    <th style="text-align: center; white-space: nowrap;"><i class="fas fa-table"></i> <br>&nbsp; Número da Placa</th>
                                                     <th style="text-align: center; white-space: nowrap; width: 20%:"><i class="fas fa-comment-alt"></i><br>&nbsp; Descrição</th>
                                                     <th style="text-align: center; white-space: nowrap;"><i class="far fa-calendar-alt"></i><br>&nbsp; Data do Laudo</th>
                                                     <th style="text-align: center; white-space: nowrap;"><i class="fas fa-ticket-alt"></i><br>&nbsp; Validade</th>
@@ -189,15 +188,6 @@ foreach($results as $result)
                                                 <tr>
                                                     <td style="text-align: center;"><?php echo htmlentities($result->numerocliente);?></td>
                                                     <td style="text-align: center;"><?php echo htmlentities($result->numerolaudo);?></td>
-                                                    <? if($result->numeroplaca == ""){
-                                                        echo ' <td style="text-align: center;">Sem placa</td>';
-
-                                                    }
-                                                    else if($result->numeroplaca != ""){
-                                                        echo '<td style="text-align: center;">'.$result->numeroplaca.'</td>';
-
-                                                    }
-                                                    ?>
                                                     <td style="text-align: center; white-space: nowrap; width: 20%"><?php echo htmlentities($result->descricao);?></td>
                                                     <td style="text-align: center;"><?php echo date("d/m/Y", strtotime($result->datalaudo))?></td>
                                                     <td style="text-align: center;"><?php echo htmlentities($result->validade);?></td>
@@ -216,36 +206,17 @@ foreach($results as $result)
                                                     ?>
                                                     </td>
 
-                                                    <? if($result->numeroplaca == ""){
-
-                                                        echo '<td style="text-align: center;">
-                                                        <center><a href="editarlaudos.php?edit='.$result->id.'"><button class="btn btn-blue waves-effect waves-light" data-toggle="tooltip" data-placement="top" title="Editar"><span class="btn-label"><i class="far fa-edit"></i></span></button></a>
-                                                                <a href="excluir_laudo.php?edit='.$result->id.'" data-toggle="tooltip" data-placement="top" title="Excluir"><button class="btn btn-red waves-effect waves-light" style="color: #fff;"><span class="btn-label"><i class="fas fa-trash"></i></span></button></a>
-                                                                <a href="./../laudos'.$result->arquivo.'" target="_blank" data-toggle="tooltip" data-placement="top" title="Visualisar"><button class="btn btn-blue waves-effect waves-light" style="color: #fff;"><span class="btn-label"><i class="fas fa-eye"></i></span></button></a>
+                                                        <td style="text-align: center;">
+                                                        <center><a href="editarlaudos.php?edit=<?php echo htmlentities($result->id);?>"><button class="btn btn-blue waves-effect waves-light" data-toggle="tooltip" data-placement="top" title="Editar"><span class="btn-label"><i class="far fa-edit"></i></span></button></a>
+                                                                <a href="excluir_laudo.php?edit=<?php echo htmlentities($result->id);?>" data-toggle="tooltip" data-placement="top" title="Excluir"><button class="btn btn-red waves-effect waves-light" style="color: #fff;"><span class="btn-label"><i class="fas fa-trash"></i></span></button></a>
+                                                                <a href="./../laudos<?php echo htmlentities($result->arquivo);?>" target="_blank" data-toggle="tooltip" data-placement="top" title="Visualisar"><button class="btn btn-blue waves-effect waves-light" style="color: #fff;"><span class="btn-label"><i class="fas fa-eye"></i></span></button></a>
                                                         </center>
                                                     
-                                                    </td>';
+                                                    </td>
 
-                                                    }
-
-                                                    else if($result->numeroplaca != ""){
-
-                                                        echo '<td style="text-align: center;">
-                                                        <center><a href="editarplacaslaudos.php?edit='.$result->id.'"><button class="btn btn-blue waves-effect waves-light" data-toggle="tooltip" data-placement="top" title="Editar"><span class="btn-label"><i class="far fa-edit"></i></span></button></a>
-                                                                <a href="excluirplacaslaudos.php?edit='.$result->id.'" data-toggle="tooltip" data-placement="top" title="Excluir"><button class="btn btn-red waves-effect waves-light" style="color: #fff;"><span class="btn-label"><i class="fas fa-trash"></i></span></button></a>
-                                                                <a href="./../laudos'.$result->arquivo.'" target="_blank" data-toggle="tooltip" data-placement="top" title="Visualisar"><button class="btn btn-blue waves-effect waves-light" style="color: #fff;"><span class="btn-label"><i class="fas fa-eye"></i></span></button></a>
-                                                        </center>
-                                                    
-                                                    </td>';
-
-                                                    }
                                                     
                                                     
-                                                    
-                                                    
-                                                    
-                                                    ?>
-                                                    
+                     
                                                 </tr>
 
                                                 <?php $cnt=$cnt+1; }} ?>
