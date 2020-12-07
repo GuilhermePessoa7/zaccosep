@@ -7,19 +7,7 @@ if(strlen($_SESSION['login'])==0)
 header('location:index.php');
 }
 else{
-if(isset($_GET['del']) && isset($_GET['numerolaudo']))
-{
-$id=$_GET['del'];
-$numerolaudo=$_GET['numerolaudo'];
 
-$sql = "delete from laudos WHERE id=:id";
-$query = $dbh->prepare($sql);
-$query -> bindParam(':id',$id, PDO::PARAM_STR);
-$query -> execute();
-
-$msg="Deletado com sucesso!";
-
-}
 
  ?>
 
@@ -161,7 +149,7 @@ $msg="Deletado com sucesso!";
                  
                                                                
 
-        <?php $sql = "SELECT * FROM laudos ";
+        <?php $sql = "SELECT * FROM laudos WHERE envio = '0'";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -185,6 +173,7 @@ foreach($results as $result)
     ?>	
 
                                                 <?php
+
 
                                                      if ($dias <= 15 && $dias > 0){
                                                         echo "
@@ -225,7 +214,7 @@ foreach($results as $result)
 	$Assunto  = "Laudo a vencer";
     $Conteudo = "
 			<p style='line-height: 150%; color: #000; font-weight: 700; font-size: 16px'>
-            Através desse email o sistema informa que o laudo do número <a style='color: red'>".$result->numerolaudo."</a> vence no dia <a style='color: red'>".date("d/m/Y", strtotime($result->datavalidade))."</a> porfavor ficar ciente deste aviso!
+            Através desse email o sistema informa que o laudo do número <a style='color: red'>".$result->numerolaudo."</a> vence no dia <a style='color: red'>".date("d/m/Y", strtotime($result->datavalidade))."</a> por favor ficar ciente deste aviso! 
 			</p>
 
 	";
@@ -599,6 +588,7 @@ foreach($results as $result)
                                                         
                                                         
                                                      }
+                                    
  
                                                 ?>
 

@@ -7,19 +7,7 @@ if(strlen($_SESSION['login'])==0)
 header('location:index.php');
 }
 else{
-if(isset($_GET['del']) && isset($_GET['numerolaudo']))
-{
-$id=$_GET['del'];
-$numerolaudo=$_GET['numerolaudo'];
 
-$sql = "delete from laudos WHERE id=:id";
-$query = $dbh->prepare($sql);
-$query -> bindParam(':id',$id, PDO::PARAM_STR);
-$query -> execute();
-
-$msg="Deletado com sucesso!";
-
-}
 
  ?>
 
@@ -191,8 +179,9 @@ foreach($results as $result)
 
 
                                                     <td style='text-align: center;'>$result->numerocliente</td>
-                                                    <td style='text-align: center;'>$result->numerolaudo</td>
-                                                    <td style='text-align: center; white-space: nowrap; width: 20%'>$result->descricao</td>";
+                                                    <td style='text-align: center;'>$result->numerolaudo</td>";
+
+                                                    echo "<td style='text-align: center; white-space: nowrap; width: 20%'>$result->descricao</td>";
 
                                                      echo " <td style='text-align: center;'>".date('d/m/Y', strtotime($result->datalaudo))."</td>";
                                                     echo "<td style='text-align: center;'>$result->validade</td>";
@@ -215,25 +204,7 @@ foreach($results as $result)
 
                                                 <?php $cnt=$cnt+1; }} ?>
 
-                                                <div id="excluir-funcionarios" class="modal fade in bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-sm">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title" id="myModalLabel" style="text-align: center;">Deseja excluir?</h4>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                </div>
-                                                    <div class="modal-body ">
-                                                        <center>
-                                                        <a href="listalaudos.php?del=<?php echo $result->id;?>&numerolaudo=<?php echo htmlentities($result->numerolaudo);?>"><button class="btn btn-success waves-effect"><i class="fas fa-check"></i> Sim</button></a>
-                                                            <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal"><i class="fas fa-times"></i> Não</button>
-                                                        </center>
-                                                    
-                                                    </div>
-                                                            </div>
-                                                                        
-                                                        </div>          
-                                            
-                                    </div>
+                                    
                                             </tbody>
                                         </table>
                                     </div>

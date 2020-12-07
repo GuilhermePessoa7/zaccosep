@@ -1,90 +1,59 @@
 <?php
-include('includes/config.php');
+session_start();
 error_reporting(0);
-if(isset($_POST['nao'])){
+include('includes/config.php');
+if(strlen($_SESSION['login'])==0)
+	{	
+header('location:index.php');
+}
+else{
 
-    $extensao = strtolower(substr($_FILES['arquivo']['name'], -4));
-    $arquivo = md5(time()) . $extensao;
-    $diretorio = "./../laudos"; 
-    
-    move_uploaded_file($_FILES['arquivo']['tmp_name'], $diretorio.$arquivo);
+if(isset($_GET['edit']))
+	{
+		$editid=$_GET['edit'];
+	}
+
+
+	
+if(isset($_POST['submit']))
+  {
+
 
 $numerocliente=$_POST['numerocliente'];
 $numerolaudo=$_POST['numerolaudo'];
 $descricao=$_POST['descricao'];
-$email=$_POST['email'];
 $datalaudo=$_POST['datalaudo'];
 $validade=$_POST['validade'];
+$email=$_POST['email'];
+$idedit=$_POST['idedit'];
 $datavalidade=$_POST['datavalidade'];
+$numeroplaca=$_POST['numeroplaca'];
 
-$sql ="INSERT INTO laudos (numerocliente, numerolaudo, descricao, datalaudo, validade, datavalidade, arquivo, email) VALUES(:numerocliente, :numerolaudo, :descricao, :datalaudo, :validade, :datavalidade, :arquivo, :email)";
-$query= $dbh -> prepare($sql);
+
+$sql="UPDATE laudos SET numerocliente=(:numerocliente), numerolaudo=(:numerolaudo), numeroplaca=(:numeroplaca), descricao=(:descricao), datalaudo=(:datalaudo), 
+                        validade=(:validade), datavalidade=(:datavalidade), email=(:email) WHERE id=(:idedit)";
+$query = $dbh->prepare($sql);
 $query-> bindParam(':numerocliente', $numerocliente, PDO::PARAM_STR);
 $query-> bindParam(':numerolaudo', $numerolaudo, PDO::PARAM_STR);
+$query-> bindParam(':numeroplaca', $numeroplaca, PDO::PARAM_STR);
 $query-> bindParam(':descricao', $descricao, PDO::PARAM_STR);
 $query-> bindParam(':datalaudo', $datalaudo, PDO::PARAM_STR);
 $query-> bindParam(':validade', $validade, PDO::PARAM_STR);
 $query-> bindParam(':datavalidade', $datavalidade, PDO::PARAM_STR);
-$query-> bindParam(':arquivo', $arquivo, PDO::PARAM_STR);
 $query-> bindParam(':email', $email, PDO::PARAM_STR);
+$query-> bindParam(':idedit', $idedit, PDO::PARAM_STR);
 $query->execute();
-$lastInsertId = $dbh->lastInsertId();
-if($lastInsertId)
-{
-    $msg = "Laudo adicionado com sucesso!";
-    echo "<script type='text/javascript'> setTimeout(function() { window.location.href = 'listalaudos.php';}, 2000); </script>";
-    
-}
-else 
-{
-$error="Algum erro aconteceu, porfavor tente denovo!";
-}
-
-}
- else if(isset($_POST['sim'])){
-
-     $extensao = strtolower(substr($_FILES['arquivo']['name'], -4));
-     $arquivo = md5(time()) . $extensao;
-     $diretorio = "./../laudos"; 
-    
-     move_uploaded_file($_FILES['arquivo']['tmp_name'], $diretorio.$arquivo);
-
- $numerocliente=$_POST['numerocliente'];
- $numerolaudo=$_POST['numerolaudo'];
- $descricao=$_POST['descricao'];
- $email=$_POST['email'];
- $datalaudo=$_POST['datalaudo'];
- $validade=$_POST['validade'];
- $datavalidade=$_POST['datavalidade'];
+    $msg="Laudo alterado com sucesso!";
+    echo "<script type='text/javascript'> setTimeout(function() { window.location.href = 'listalaudos.php';}, 1000); </script>";
+}   
 
 
- $sql ="INSERT INTO laudos (numerocliente, numerolaudo, descricao, datalaudo, validade, datavalidade, arquivo, email) VALUES(:numerocliente, :numerolaudo, :descricao, :datalaudo, :validade, :datavalidade, :arquivo, :email)";
- $query= $dbh -> prepare($sql);
- $query-> bindParam(':numerocliente', $numerocliente, PDO::PARAM_STR);
- $query-> bindParam(':numerolaudo', $numerolaudo, PDO::PARAM_STR);
- $query-> bindParam(':descricao', $descricao, PDO::PARAM_STR);
- $query-> bindParam(':datalaudo', $datalaudo, PDO::PARAM_STR);
- $query-> bindParam(':validade', $validade, PDO::PARAM_STR);
- $query-> bindParam(':datavalidade', $datavalidade, PDO::PARAM_STR);
- $query-> bindParam(':arquivo', $arquivo, PDO::PARAM_STR);
- $query-> bindParam(':email', $email, PDO::PARAM_STR);
- $query->execute();
- $lastInsertId = $dbh->lastInsertId();
- if($lastInsertId)
- {
-     $msg = "Laudo adicionado com sucesso!";
-     echo "<script type='text/javascript'> setTimeout(function() { window.location.href = 'cadlaudos.php';}, 2000); </script>";
-    
- }
- else 
- {
- $error="Algum erro aconteceu, porfavor tente denovo!";
- }
 
- }
 ?>
 
+
 <!-- PROGRAMAÇÃO POR: GUILHERME PESSOA @GUILHERMEPESSOAA7 -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -96,9 +65,8 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
     <title>SEP - Sistema Administrativo</title>
     <link href="../assets/node_modules/morrisjs/morris.css" rel="stylesheet">
     <link href="../assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
-    <link href="../assets/node_modules/c3-master/c3.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
+    <link href="../assets/node_modules/c3-master/c3.min.css" rel="stylesheet">
     <link href="dist/css/style.min.css" rel="stylesheet">
     <link href="dist/css/pages/dashboard1.css" rel="stylesheet">
 </head>
@@ -117,11 +85,13 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
 
     <style>.text-cor {COLOR: #1f1e69;}</style>
     <div id="main-wrapper">
+
     <?php include('includes/header.php');?>
 
         <?php include('includes/menu.php');?>
 
-            <?php include('includes/logoutmodal.php');?>
+        <?php include('includes/logoutmodal.php');?>
+
 
         <div class="page-wrapper">
             <div class="container-fluid">
@@ -132,7 +102,7 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
                         <div class="d-flex justify-content-end align-items-center">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="javascript:void(0)">Inicio</a></li>
-                                <li class="breadcrumb-item active">Cadastrar Laudos</li>
+                                <li class="breadcrumb-item active">Editar Laudos</li>
                             </ol>
                         </div>
                     </div>
@@ -188,53 +158,63 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
                         opacity: 0.6;
                     }
                 </style>
+<?php
+		$sql = "SELECT * from laudos where id = :editid";
+		$query = $dbh -> prepare($sql);
+		$query->bindParam(':editid',$editid,PDO::PARAM_INT);
+		$query->execute();
+		$result=$query->fetch(PDO::FETCH_OBJ);
+		$cnt=1;	
+?>
+
 <div class="row">
     <div class="col-12">
     <div class="card">
     <div class="card-body">             
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4 class="card-title"><i class="far fa-file"></i> &nbsp; Cadastrar Laudos</h4>
-                                                    <h6 class="card-subtitle"><code><i class="fas fa-angle-double-right"></i> Cadastre novos laudos ao sistema</code></h6>
+                                                    <h4 class="card-title"><i class="far fa-file"></i> &nbsp;  Editar o laudo Nº <?php echo htmlentities($result->numerolaudo); ?> </h4>
+                                                    <h6 class="card-subtitle"><code><i class="fas fa-angle-double-right"></i> Edite o laudo <?php echo htmlentities($result->numerolaudo); ?> no sistema</code></h6>
                                                     <form class="form-material m-t-40 row" method="post" enctype="multipart/form-data">
-                                                        <div class="form-group col-md-2 m-t-20">
-                                                            <input type="text" name="numerocliente" class="form-control form-control-line" placeholder="Número do Cliente" required>
-                                                            <span class="help-block text-muted"><small>Digite aqui o número do cliente.</small></span> 
-                                                        </div>
-                                                        <div class="form-group col-md-2 m-t-20">
-                                                            <input type="text" name="numerolaudo" class="form-control" placeholder="Número do Laudo" required> 
-                                                            <span class="help-block text-muted"><small>Digite aqui o número do laudo.</small></span>
-                                                        </div>
-                                                        <div class="form-group col-md-4 m-t-20">
-                                                            <input type="email" name="email" class="form-control" placeholder="Email do laudo" required> 
-                                                            <span class="help-block text-muted"><small>Digite aqui o email que vai ser enviado a notificacao do vencimento do laudo.</small></span>
+                                                        <div class="form-group col-md-3 m-t-20">
+                                                            <input type="text" name="numerocliente" onkeypress="return somenteNumeros(event)" value="<?php echo htmlentities($result->numerocliente);?>" class="form-control form-control-line" required>
+                                                            <span class="help-block text-muted"><small>Número do Cliente</small></span> 
                                                         </div>
                                                         <div class="form-group col-md-3 m-t-20">
-                                                        <input type="file" required name="arquivo" class="form-control">
-                                                            <span class="help-block text-muted"><small>Faça upload do laudo neste campo.</small></span>
+                                                            <input type="text" name="numerolaudo" class="form-control" value="<?php echo htmlentities($result->numerolaudo);?>" required> 
+                                                            <span class="help-block text-muted"><small>Número do Laudo</small></span>
                                                         </div>
+                                                        <div class="form-group col-md-3 m-t-20">
+                                                            <input type="text" name="numeroplaca" class="form-control" value="<?php echo htmlentities($result->numeroplaca);?>" required> 
+                                                            <span class="help-block text-muted"><small>Número da Placa</small></span>
+                                                        </div>
+                                                        <div class="form-group col-md-3 m-t-20">
+                                                            <input type="email" name="email" class="form-control" value="<?php echo htmlentities($result->email);?>"> 
+                                                            <span class="help-block text-muted"><small>Digite aqui o email que vai ser enviado a notificacao do vencimento do laudo.</small></span>
+                                                        </div>
+
                                                         <div class="form-group col-md-12 m-t-20">
-                                                            <input type="text" name="descricao" class="form-control" placeholder="Descrição do laudo" required> 
-                                                            <span class="help-block text-muted"><small>Digite aqui uma descrição para o seu laudo.</small></span>
+                                                            <input type="text" name="descricao" class="form-control" value="<?php echo htmlentities($result->descricao);?>" required> 
+                                                            <span class="help-block text-muted"><small>Descrição do laudo</small></span>
                                                         </div>
                                                         <div class="form-group col-md-4 m-t-20">
-                                                            <input type="date" name="datalaudo" id="dataInicio" class="form-control" placeholder="Data do Laudo" required>
-                                                            <span class="help-block text-muted"><small>Digite aqui a data do laudo.</small></span>
+                                                            <input type="date" name="datalaudo" id="dataInicio" class="form-control" value="<?php echo htmlentities($result->datalaudo);?>" required>
+                                                            <span class="help-block text-muted"><small>Data do laudo.</small></span>
                                                         </div>
                                                          <div class="form-group col-md-4 m-t-20">
-                                                            <input type="date" name="datavalidade" id="dataFinal" class="form-control" placeholder="Data de Validade"> 
-                                                            <span class="help-block text-muted"><small>Digite aqui a data do laudo.</small></span>
+                                                            <input type="date" name="datavalidade" id="dataFinal" class="form-control" value="<?php echo htmlentities($result->datavalidade);?>"> 
+                                                            <span class="help-block text-muted"><small>Data do validade.</small></span>
                                                         </div>
                                                         <div class="form-group col-md-4 m-t-20">
                                                             <select name="validade" class="form-control" required> 
-                                                                <option value="">Marque novamente a validade do laudo</option>
+                                                                <option value="<?php echo htmlentities($result->validade);?>"><?php echo htmlentities($result->validade);?></option>
                                                                 <option value="6 meses">6 meses</option>
                                                                 <option value="1 ano">1 ano</option>
                                                             </select>
                                                             <span class="help-block text-muted"><small>Porfavor, selecione novamente a validade.</small></span>
                                                         </div>
                                                          <div class="col-lg-2 col-md-2">
-                                                            <button type="button" data-toggle="modal" data-target="#laudosalvar" class="btn waves-effect waves-light btn-block btn-success"><i class="fas fa-check"></i> Salvar</button>
+                                                            <button name="submit" type="submit" class="btn waves-effect waves-light btn-block btn-success"><i class="fas fa-check"></i> Salvar</button>
                                                         </div>
                                                         <div style="padding: 3px;"></div>
                                                         <div class="col-lg-2 col-md-2">
@@ -242,27 +222,12 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
                                                             <a href="listalaudos.php"><button type="button" class="btn waves-effect waves-light btn-block btn-danger"><i class="fas fa-arrow-left"></i> Ir para a lista</button></a>
                                                             
                                                         </div>
-
-                                                        <div id="laudosalvar" class="modal fade in bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel" style="text-align: center;">Deseja cadastrar mais de um laudo?</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-                <div class="modal-body ">
-                    <center>
-                        <button type="submit" name="sim" class="btn btn-success waves-effect"><i class="fas fa-check"></i> Sim</button>
-                        <button type="submit" name="nao" class="btn btn-danger waves-effect"><i class="fas fa-times"></i> Nao</button>
-                    </center>
-                
-            </div>
-        </div>
-    </div>
-</div>
+                                                        <input type="hidden" name="idedit" value="<?php echo htmlentities($result->id);?>" >
                                                     </form>
 
-                                                    <?php if($msg){?><br><div id="msges" class="alert alert-success" style="text-align: center;" role="alert"><i class="fas fa-check"></i>&nbsp; <?php echo htmlentities($msg); ?></div><?php } ?>
+                                                    <?php if($msg){?><br><div class="alert alert-success" style="text-align: center;" role="alert"><i class="fas fa-check"></i>&nbsp; <?php echo htmlentities($msg); ?></div>
+                                                    
+                                                    <?php } ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -271,8 +236,6 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
                         </div>
             </div>
         </div>
-
-
         <?php include('includes/rodape.php');?>
     </div>
     <script type="text/javascript">
@@ -288,17 +251,24 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
     <script src="dist/js/waves.js"></script>
     <script src="dist/js/sidebarmenu.js"></script>
     <script src="dist/js/custom.min.js"></script>
-    <script>
-        const form = document.getElementById('some-form')
-form.addEventListener('submit', e => {
-    e.preventDefault()
-    console.log('Deu certo')
-})
-
-    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-masker/1.1.0/vanilla-masker.min.js"></script>
+    <script>
+        function somenteNumeros(e) {
+        var charCode = e.charCode ? e.charCode : e.keyCode;
+        // charCode 8 = backspace   
+        // charCode 9 = tab
+        if (charCode != 8 && charCode != 9) {
+            // charCode 48 equivale a 0   
+            // charCode 57 equivale a 9
+            if (charCode < 48 || charCode > 57) {
+                return false;
+            }
+        }
+    }
+    </script>
+    <script>
 
-<!-- <script>
+
 
 document.getElementById("6meses").onclick = function() {
     var dataInicio = document.getElementById("dataInicio");
@@ -332,13 +302,16 @@ dataInicio.addEventListener("focusout", function (event) {
   dataFinal.value = data.toISOString().substring(0, 10);
 })
 
+
 var event = new Event("focusout");
 dataInicio.dispatchEvent(event);
 
+
+
 };
-</script> -->
 
 
+</script>
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -353,3 +326,4 @@ dataInicio.dispatchEvent(event);
 </html>
 
 <!-- PROGRAMAÇÃO POR: GUILHERME PESSOA @GUILHERMEPESSOAA7 -->
+<?php } ?>

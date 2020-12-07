@@ -3,31 +3,36 @@ include('includes/config.php');
 error_reporting(0);
 if(isset($_POST['nao'])){
 
+
     $extensao = strtolower(substr($_FILES['arquivo']['name'], -4));
     $arquivo = md5(time()) . $extensao;
     $diretorio = "./../laudos"; 
     
     move_uploaded_file($_FILES['arquivo']['tmp_name'], $diretorio.$arquivo);
 
-$numerocliente=$_POST['numerocliente'];
-$numerolaudo=$_POST['numerolaudo'];
-$descricao=$_POST['descricao'];
-$email=$_POST['email'];
-$datalaudo=$_POST['datalaudo'];
-$validade=$_POST['validade'];
-$datavalidade=$_POST['datavalidade'];
-
-$sql ="INSERT INTO laudos (numerocliente, numerolaudo, descricao, datalaudo, validade, datavalidade, arquivo, email) VALUES(:numerocliente, :numerolaudo, :descricao, :datalaudo, :validade, :datavalidade, :arquivo, :email)";
-$query= $dbh -> prepare($sql);
-$query-> bindParam(':numerocliente', $numerocliente, PDO::PARAM_STR);
-$query-> bindParam(':numerolaudo', $numerolaudo, PDO::PARAM_STR);
-$query-> bindParam(':descricao', $descricao, PDO::PARAM_STR);
-$query-> bindParam(':datalaudo', $datalaudo, PDO::PARAM_STR);
-$query-> bindParam(':validade', $validade, PDO::PARAM_STR);
-$query-> bindParam(':datavalidade', $datavalidade, PDO::PARAM_STR);
-$query-> bindParam(':arquivo', $arquivo, PDO::PARAM_STR);
-$query-> bindParam(':email', $email, PDO::PARAM_STR);
-$query->execute();
+    $numerocliente=$_POST['numerocliente'];
+    $numerolaudo=$_POST['numerolaudo'];
+    $descricao=$_POST['descricao'];
+    $email=$_POST['email'];
+    $datalaudo=$_POST['datalaudo'];
+    $validade=$_POST['validade'];
+    $datavalidade=$_POST['datavalidade'];
+    $numeroplaca=$_POST['numeroplaca'];
+    
+    
+    $sql ="INSERT INTO laudos (numerocliente, numerolaudo, numeroplaca, descricao, datalaudo, validade, datavalidade, arquivo, email) 
+                        VALUES(:numerocliente, :numerolaudo, :numeroplaca, :descricao, :datalaudo, :validade, :datavalidade, :arquivo, :email)";
+    $query= $dbh -> prepare($sql);
+    $query-> bindParam(':numerocliente', $numerocliente, PDO::PARAM_STR);
+    $query-> bindParam(':numerolaudo',   $numerolaudo,   PDO::PARAM_STR);
+    $query-> bindParam(':numeroplaca',   $numeroplaca,   PDO::PARAM_STR);
+    $query-> bindParam(':descricao',     $descricao,     PDO::PARAM_STR);
+    $query-> bindParam(':datalaudo',     $datalaudo,     PDO::PARAM_STR);
+    $query-> bindParam(':validade',      $validade,      PDO::PARAM_STR);
+    $query-> bindParam(':datavalidade',  $datavalidade,  PDO::PARAM_STR);
+    $query-> bindParam(':arquivo',       $arquivo,       PDO::PARAM_STR);
+    $query-> bindParam(':email',         $email,         PDO::PARAM_STR);
+    $query->execute();
 $lastInsertId = $dbh->lastInsertId();
 if($lastInsertId)
 {
@@ -41,47 +46,51 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
 }
 
 }
- else if(isset($_POST['sim'])){
+else if(isset($_POST['sim'])){
 
-     $extensao = strtolower(substr($_FILES['arquivo']['name'], -4));
-     $arquivo = md5(time()) . $extensao;
-     $diretorio = "./../laudos"; 
+
+    $extensao = strtolower(substr($_FILES['arquivo']['name'], -4));
+    $arquivo = md5(time()) . $extensao;
+    $diretorio = "./../laudos"; 
     
-     move_uploaded_file($_FILES['arquivo']['tmp_name'], $diretorio.$arquivo);
+    move_uploaded_file($_FILES['arquivo']['tmp_name'], $diretorio.$arquivo);
 
- $numerocliente=$_POST['numerocliente'];
- $numerolaudo=$_POST['numerolaudo'];
- $descricao=$_POST['descricao'];
- $email=$_POST['email'];
- $datalaudo=$_POST['datalaudo'];
- $validade=$_POST['validade'];
- $datavalidade=$_POST['datavalidade'];
-
-
- $sql ="INSERT INTO laudos (numerocliente, numerolaudo, descricao, datalaudo, validade, datavalidade, arquivo, email) VALUES(:numerocliente, :numerolaudo, :descricao, :datalaudo, :validade, :datavalidade, :arquivo, :email)";
- $query= $dbh -> prepare($sql);
- $query-> bindParam(':numerocliente', $numerocliente, PDO::PARAM_STR);
- $query-> bindParam(':numerolaudo', $numerolaudo, PDO::PARAM_STR);
- $query-> bindParam(':descricao', $descricao, PDO::PARAM_STR);
- $query-> bindParam(':datalaudo', $datalaudo, PDO::PARAM_STR);
- $query-> bindParam(':validade', $validade, PDO::PARAM_STR);
- $query-> bindParam(':datavalidade', $datavalidade, PDO::PARAM_STR);
- $query-> bindParam(':arquivo', $arquivo, PDO::PARAM_STR);
- $query-> bindParam(':email', $email, PDO::PARAM_STR);
- $query->execute();
- $lastInsertId = $dbh->lastInsertId();
- if($lastInsertId)
- {
-     $msg = "Laudo adicionado com sucesso!";
-     echo "<script type='text/javascript'> setTimeout(function() { window.location.href = 'cadlaudos.php';}, 2000); </script>";
+    $numerocliente=$_POST['numerocliente'];
+    $numerolaudo=$_POST['numerolaudo'];
+    $descricao=$_POST['descricao'];
+    $email=$_POST['email'];
+    $datalaudo=$_POST['datalaudo'];
+    $validade=$_POST['validade'];
+    $datavalidade=$_POST['datavalidade'];
+    $numeroplaca=$_POST['numeroplaca'];
     
- }
- else 
- {
- $error="Algum erro aconteceu, porfavor tente denovo!";
- }
+    
+    $sql ="INSERT INTO laudos (numerocliente, numerolaudo, numeroplaca, descricao, datalaudo, validade, datavalidade, arquivo, email) 
+                        VALUES(:numerocliente, :numerolaudo, :numeroplaca, :descricao, :datalaudo, :validade, :datavalidade, :arquivo, :email)";
+    $query= $dbh -> prepare($sql);
+    $query-> bindParam(':numerocliente', $numerocliente, PDO::PARAM_STR);
+    $query-> bindParam(':numerolaudo',   $numerolaudo,   PDO::PARAM_STR);
+    $query-> bindParam(':numeroplaca',   $numeroplaca,   PDO::PARAM_STR);
+    $query-> bindParam(':descricao',     $descricao,     PDO::PARAM_STR);
+    $query-> bindParam(':datalaudo',     $datalaudo,     PDO::PARAM_STR);
+    $query-> bindParam(':validade',      $validade,      PDO::PARAM_STR);
+    $query-> bindParam(':datavalidade',  $datavalidade,  PDO::PARAM_STR);
+    $query-> bindParam(':arquivo',       $arquivo,       PDO::PARAM_STR);
+    $query-> bindParam(':email',         $email,         PDO::PARAM_STR);
+    $query->execute();
+$lastInsertId = $dbh->lastInsertId();
+if($lastInsertId)
+{
+    $msg = "Laudo adicionado com sucesso!";
+    echo "<script type='text/javascript'> setTimeout(function() { window.location.href = 'cadlaudosplacas.php';}, 2000); </script>";
+    
+}
+else 
+{
+$error="Algum erro aconteceu, porfavor tente denovo!";
+}
 
- }
+}
 ?>
 
 <!-- PROGRAMAÇÃO POR: GUILHERME PESSOA @GUILHERMEPESSOAA7 -->
@@ -192,7 +201,7 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
     <div class="col-12">
     <div class="card">
     <div class="card-body">             
-                                            <div class="card">
+    <div class="card">
                                                 <div class="card-body">
                                                     <h4 class="card-title"><i class="far fa-file"></i> &nbsp; Cadastrar Laudos</h4>
                                                     <h6 class="card-subtitle"><code><i class="fas fa-angle-double-right"></i> Cadastre novos laudos ao sistema</code></h6>
@@ -205,7 +214,11 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
                                                             <input type="text" name="numerolaudo" class="form-control" placeholder="Número do Laudo" required> 
                                                             <span class="help-block text-muted"><small>Digite aqui o número do laudo.</small></span>
                                                         </div>
-                                                        <div class="form-group col-md-4 m-t-20">
+                                                        <div class="form-group col-md-2 m-t-20">
+                                                            <input type="text" name="numeroplaca" class="form-control" placeholder="Número da Placa" required> 
+                                                            <span class="help-block text-muted"><small>Digite aqui o número da placa.</small></span>
+                                                        </div>
+                                                        <div class="form-group col-md-3 m-t-20">
                                                             <input type="email" name="email" class="form-control" placeholder="Email do laudo" required> 
                                                             <span class="help-block text-muted"><small>Digite aqui o email que vai ser enviado a notificacao do vencimento do laudo.</small></span>
                                                         </div>
@@ -243,6 +256,7 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
                                                             
                                                         </div>
 
+
                                                         <div id="laudosalvar" class="modal fade in bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -260,9 +274,13 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
         </div>
     </div>
 </div>
+
+
                                                     </form>
 
-                                                    <?php if($msg){?><br><div id="msges" class="alert alert-success" style="text-align: center;" role="alert"><i class="fas fa-check"></i>&nbsp; <?php echo htmlentities($msg); ?></div><?php } ?>
+                                                    <?php if($msg){?><br><div class="alert alert-success" style="text-align: center;" role="alert"><i class="fas fa-check"></i>&nbsp; <?php echo htmlentities($msg); ?></div>
+                                                    
+                                                    <?php } ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -271,8 +289,6 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
                         </div>
             </div>
         </div>
-
-
         <?php include('includes/rodape.php');?>
     </div>
     <script type="text/javascript">
@@ -288,17 +304,9 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
     <script src="dist/js/waves.js"></script>
     <script src="dist/js/sidebarmenu.js"></script>
     <script src="dist/js/custom.min.js"></script>
-    <script>
-        const form = document.getElementById('some-form')
-form.addEventListener('submit', e => {
-    e.preventDefault()
-    console.log('Deu certo')
-})
-
-    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-masker/1.1.0/vanilla-masker.min.js"></script>
 
-<!-- <script>
+<script>
 
 document.getElementById("6meses").onclick = function() {
     var dataInicio = document.getElementById("dataInicio");
@@ -336,8 +344,7 @@ var event = new Event("focusout");
 dataInicio.dispatchEvent(event);
 
 };
-</script> -->
-
+</script>
 
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
