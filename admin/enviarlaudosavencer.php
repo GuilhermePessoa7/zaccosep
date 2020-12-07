@@ -24,6 +24,7 @@ $datalaudo=$_POST['datalaudo'];
 $email=$_POST['email'];
 $idedit=$_POST['idedit'];
 $datavalidade=$_POST['datavalidade'];
+$envio = 1;
 
 $sql ="INSERT INTO laudos_enviados (numerocliente, numerolaudo, datalaudo, email, datavalidade) VALUES(:numerocliente, :numerolaudo, :datalaudo, :email, :datavalidade)";
 $query= $dbh -> prepare($sql);
@@ -32,6 +33,13 @@ $query-> bindParam(':numerolaudo', $numerolaudo, PDO::PARAM_STR);
 $query-> bindParam(':datalaudo', $datalaudo, PDO::PARAM_STR);
 $query-> bindParam(':email', $email, PDO::PARAM_STR);
 $query-> bindParam(':datavalidade', $datavalidade, PDO::PARAM_STR);
+
+$query->execute();
+
+$sql="UPDATE laudos SET  envio=(:envio) WHERE id=(:idedit)";
+$query = $dbh->prepare($sql);
+$query-> bindParam(':envio',  $envio,  PDO::PARAM_STR);
+$query-> bindParam(':idedit', $idedit, PDO::PARAM_STR);
 
 $query->execute();
 
@@ -561,11 +569,11 @@ $query->execute();
                                                     <h6 class="card-subtitle"><code><i class="fas fa-angle-double-right"></i> Enviar para o email <?php echo htmlentities($result->email); ?> uma notificacao do laudo <?php echo htmlentities($result->numerolaudo); ?> que ira vencer!</code></h6>
                                                     <form class="form-material m-t-40 row" method="post" enctype="multipart/form-data">
                                                         <div class="form-group col-md-2 m-t-20">
-                                                            <input type="text" name="numerocliente" onkeypress="return somenteNumeros(event)" value="<?php echo htmlentities($result->numerocliente);?>" class="form-control form-control-line" >
+                                                            <input type="text" name="numerocliente" value="<?php echo htmlentities($result->numerocliente);?>" class="form-control form-control-line" >
                                                             <span class="help-block text-muted"><small>Número do Cliente</small></span> 
                                                         </div>
                                                         <div class="form-group col-md-2 m-t-20">
-                                                            <input type="text" name="numerolaudo" onkeypress="return somenteNumeros(event)" class="form-control" value="<?php echo htmlentities($result->numerolaudo);?>" > 
+                                                            <input type="text" name="numerolaudo" class="form-control" value="<?php echo htmlentities($result->numerolaudo);?>" > 
                                                             <span class="help-block text-muted"><small>Número do Laudo</small></span>
                                                         </div>
                                                         <div class="form-group col-md-3 m-t-20">
