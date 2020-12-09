@@ -89,17 +89,6 @@ else{
                             <div class="col-xs-12">
                                 <input class="form-control" type="text" class="inputs" required="" value="Cliente N°<?php echo htmlentities($result->numerocliente);?>" disabled> </div>
                         </div>
-
-                        <? if($result->numeroplaca == ""){
-                            echo '';
-
-                        }else if($result->numeroplaca != ""){
-                            echo '<div class="form-group">
-                            <div class="col-xs-12">
-                                <input class="form-control" type="text" class="inputs" required="" value="Placa N°'.$result->numeroplaca.'" disabled> </div>
-                        </div>';
-
-                        }?>
                         
                         <div class="form-group text-center">
                             <div class="col-xs-12 p-b-20">
