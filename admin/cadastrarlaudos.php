@@ -178,20 +178,15 @@ $error="Algum erro aconteceu, porfavor tente denovo!";
                                                             <input type="text" name="descricao" class="form-control" placeholder="Descrição do laudo" required> 
                                                             <span class="help-block text-muted"><small>Digite aqui uma descrição para o seu laudo.</small></span>
                                                         </div>
-                                                        <div class="form-group col-md-3 m-t-20">
+                                                        <div class="form-group col-md-4 m-t-20">
                                                             <input type="date" name="datalaudo" id="dataInicio" class="form-control" placeholder="Data do Laudo" required>
                                                             <span class="help-block text-muted"><small>Digite aqui a data do laudo.</small></span>
                                                         </div>
-                                                         <div class="form-group col-md-3 m-t-2">
-                                                         <button type="button" class="btn btn-rounded btn-block btn-outline-secondary" id="6meses"> 6 meses</button>
-                                                         <button type="button" class="btn btn-rounded btn-block btn-outline-secondary" id="1ano">1 ano</button>
-                                                        <span class="help-block text-muted"><small>Marque o tempo de validade do seu laudo</small></span>
-                                                         </div>
-                                                         <div class="form-group col-md-3 m-t-20">
+                                                         <div class="form-group col-md-4 m-t-20">
                                                             <input type="date" name="datavalidade" id="dataFinal" class="form-control" placeholder="Data de Validade"> 
                                                             <span class="help-block text-muted"><small>A data de validade será gerada automaticamente.</small></span>
                                                         </div>
-                                                        <div class="form-group col-md-3 m-t-20">
+                                                        <div class="form-group col-md-4 m-t-20">
                                                             <select name="validade" class="form-control" required> 
                                                                 <option value="">Marque novamente a validade do laudo</option>
                                                                 <option value="6 meses">6 meses</option>
