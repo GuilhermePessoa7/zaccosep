@@ -122,26 +122,8 @@ else{
     <div class="card">
     <div class="card-body">
         <h6 class="card-subtitle"></h6>
-        <button type="button" data-toggle="modal" data-target="#tipolaudo" class="btn waves-effect waves-light btn-success m-t-10 mb-2 float-right">
-        <i class="fas fa-plus"></i> Adicionar</button>
-
-        <div id="tipolaudo" class="modal fade in bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel" style="text-align: center;">Deseja cadastrar qual tipo de laudo?</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-                <div class="modal-body ">
-                    <center>
-                        <a href="cadastrarplacas.php"><button type="button" class="btn btn-primary waves-effect" style="background: #1f1e69;"><i class="fas fa-check"></i> Laudo com Placa</button></a>
-                        <a href="cadastrarlaudos.php"><button type="button" class="btn btn-danger waves-effect"><i class="fas fa-times"></i> Laudo sem Placa</button></a>
-                    </center>
-                
-            </div>
-        </div>
-    </div>
-</div>
+        <a href="cadastrarlaudos.php"><button type="button" class="btn waves-effect waves-light btn-success m-t-10 mb-2 float-right">
+		<i class="fas fa-plus"></i> Adicionar</button></a>
 
 
         <?php include('includes/logoutmodal.php');?>
