@@ -1,7 +1,7 @@
 <?php
 session_start();
 error_reporting(0);
-include('../admin/includes/config.php');
+include('admin/includes/config.php');
 if(isset($_POST['submit']))
 {
 
